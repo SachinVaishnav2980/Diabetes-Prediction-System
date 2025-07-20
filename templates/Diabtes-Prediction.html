@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" class="transition-colors duration-300">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diabetes Prediction</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind dark mode setup
+    tailwind.config = {
+      darkMode: 'class'
+    };
+  </script>
+  <style>
+    .switch input:checked + span {
+      background-color: #2563eb;
+    }
+    .switch input:checked + span::before {
+      transform: translateX(1.5rem);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 min-h-screen bg-cover bg-center bg-no-repeat transition-all duration-300"
+      style="background-image: url('https://images.unsplash.com/photo-1588776814546-d9b4ff71d69e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=60');">
+
+  <!-- Dark Mode Toggle -->
+  <div class="fixed top-4 right-4 z-50">
+    <label class="switch relative inline-flex items-center cursor-pointer">
+      <input type="checkbox" id="darkToggle" class="sr-only peer">
+      <span class="w-11 h-6 bg-gray-300 rounded-full peer peer-focus:ring-2 peer-focus:ring-blue-500
+                   dark:bg-gray-600 transition-all duration-300 before:content-[''] before:absolute before:top-0.5
+                   before:left-0.5 before:bg-white before:border before:rounded-full before:h-5 before:w-5
+                   before:transition-all"></span>
+    </label>
+  </div>
+
+  <!-- Form Container -->
+  <div class="bg-white dark:bg-gray-800 bg-opacity-90 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md mx-auto mt-24 transition duration-300">
+    <h2 class="text-2xl font-bold text-center text-blue-700 dark:text-blue-400 mb-6">Diabetes Prediction</h2>
+    
+    <form action="/predict" method="post" class="space-y-4">
+      <!-- All Inputs -->
+      <div>
+        <label for="pregnancies" class="block font-medium text-gray-700 dark:text-gray-200">Pregnancies</label>
+        <input type="number" id="pregnancies" name="pregnancies" required 
+               class="mt-1 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+      </div>
+
+      <div>
+        <label for="glucose" class="block font-medium text-gray-700 dark:text-gray-200">Glucose</label>
+        <input type="number" id="glucose" name="glucose" required 
+               class="mt-1 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+      </div>
+
+      <div>
+        <label for="bloodpressure" class="block font-medium text-gray-700 dark:text-gray-200">Blood Pressure</label>
+        <input type="number" id="bloodpressure" name="bloodpressure" required 
+               class="mt-1 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+      </div>
+
+      <div>
+        <label for="skinthickness" class="block font-medium text-gray-700 dark:text-gray-200">Skin Thickness</label>
+        <input type="number" id="skinthickness" name="skinthickness" required 
+               class="mt-1 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+      </div>
+
+      <div>
+        <label for="insulin" class="block font-medium text-gray-700 dark:text-gray-200">Insulin</label>
+        <input type="number" id="insulin" name="insulin" required 
+               class="mt-1 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+      </div>
+
+      <div>
+        <label for="bmi" class="block font-medium text-gray-700 dark:text-gray-200">BMI</label>
+        <input type="number" step="0.1" id="bmi" name="bmi" required 
+               class="mt-1 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+      </div>
+
+      <div>
+        <label for="dpf" class="block font-medium text-gray-700 dark:text-gray-200">Diabetes Pedigree Function</label>
+        <input type="number" step="0.001" id="dpf" name="diabetespedigreefunction" required 
+               class="mt-1 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+      </div>
+
+      <div>
+        <label for="age" class="block font-medium text-gray-700 dark:text-gray-200">Age</label>
+        <input type="number" id="age" name="age" required 
+               class="mt-1 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+      </div>
+
+      <button type="submit" 
+              class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200">
+        Predict
+      </button>
+
+      <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-4">* Ensure all fields are filled correctly before submitting.</p>
+    </form>
+      {% if prediction_text %}
+  <div class="mt-6 p-4 rounded-lg bg-green-100 dark:bg-green-800 text-center text-gray-800 dark:text-white font-semibold">
+    {{ prediction_text }}
+  </div>
+{% endif %} 
+  </div>
+
+  <!-- Theme Toggle Script -->
+  <script>
+    const toggle = document.getElementById('darkToggle');
+    const html = document.documentElement;
+
+    // Load saved theme
+    if (localStorage.getItem('theme') === 'dark') {
+      html.classList.add('dark');
+      toggle.checked = true;
+    }
+
+    toggle.addEventListener('change', () => {
+      if (toggle.checked) {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  </script>
+</body>
+</html>
